@@ -100,13 +100,11 @@
             mix-blend-mode: difference;
         }
 
-        .nav-logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--gold);
-            letter-spacing: 0.1em;
-            text-decoration: none;
+        .nav-photo {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+            object-fit: cover;
         }
 
         .nav-center {
@@ -284,38 +282,6 @@
             animation: fadeUp 0.8s ease 0.3s forwards;
         }
 
-        .hero-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(28px, 8vw, 80px);
-            font-weight: 800;
-            line-height: 1;
-            letter-spacing: -0.02em;
-            margin-bottom: 24px;
-        }
-
-        .hero-title .line {
-            display: block;
-            overflow: visible;
-        }
-
-        .hero-title .line span {
-            display: inline-block;
-            transform: translateY(100%);
-            animation: revealText 1s ease forwards;
-        }
-
-        .hero-title .line:nth-child(1) span { animation-delay: 0.1s; }
-        .hero-title .line:nth-child(2) span { animation-delay: 0.2s; }
-
-        .hero-title .outline {
-            -webkit-text-stroke: 1px var(--white);
-            color: transparent;
-        }
-
-        .hero-title .gold {
-            color: var(--gold);
-        }
-
         .hero-cta {
             margin-top: 32px;
             opacity: 0;
@@ -456,30 +422,6 @@
             color: var(--gold);
         }
 
-        .about-stats {
-            display: flex;
-            gap: 32px;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border-subtle);
-        }
-
-        .stat-number {
-            font-family: 'Syne', sans-serif;
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--gold);
-        }
-
-        .stat-label {
-            font-family: 'Syne', sans-serif;
-            font-size: 9px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            margin-top: 4px;
-        }
-
         .about-visual {
             position: relative;
             height: 340px;
@@ -539,93 +481,18 @@
             color: var(--gold);
         }
 
-        /* ========== COACHES ========== */
-        .coaches {
-            background: var(--black);
-        }
-
-        .coaches-header {
-            margin-bottom: 40px;
-        }
-
-        .coaches-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .coach-card {
-            cursor: pointer;
-        }
-
-        .coach-image {
-            aspect-ratio: 3/4;
-            background: var(--black-soft);
-            position: relative;
-            margin-bottom: 16px;
-            border: 1px solid rgba(184, 134, 11, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: border-color 0.3s ease;
-            overflow: hidden;
-        }
-
-        .coach-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top center;
-        }
-
-        .coach-card:hover .coach-image {
-            border-color: var(--gold);
-        }
-
-        .coach-number {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            font-family: 'Syne', sans-serif;
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: var(--gold);
-            z-index: 1;
-        }
-
-        .coach-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            transition: color 0.3s ease;
-        }
-
-        .coach-card:hover .coach-name {
-            color: var(--gold);
-        }
-
-        .coach-role {
-            font-size: 13px;
-            color: var(--gold);
-            margin-bottom: 8px;
-        }
-
-        .coach-bio {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.5;
-        }
-
         /* Image placeholder for missing photos */
         .image-placeholder {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             color: var(--gold);
             opacity: 0.3;
+            width: 100%;
+            height: 100%;
+            background: var(--black-soft);
         }
 
         .image-placeholder svg {
@@ -639,6 +506,76 @@
             font-size: 8px;
             letter-spacing: 0.15em;
             text-transform: uppercase;
+        }
+
+        /* ========== FOUNDER ========== */
+        .founder {
+            background: var(--black);
+        }
+
+        .founder-header {
+            margin-bottom: 40px;
+        }
+
+        .founder-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .founder-image {
+            aspect-ratio: 3/4;
+            background: var(--black-soft);
+            position: relative;
+            border: 1px solid rgba(184, 134, 11, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .founder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .founder-number {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-family: 'Syne', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            z-index: 1;
+        }
+
+        .founder-info {
+            padding-top: 16px;
+        }
+
+        .founder-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--white);
+        }
+
+        .founder-role {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+
+        .founder-bio {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
         }
 
         /* ========== PROGRAMS ========== */
@@ -750,14 +687,14 @@
 
         .membership-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 0;
-            max-width: 720px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .membership-card {
-            padding: 32px 24px;
+            padding: 32px 20px;
             border: 1px solid var(--border-subtle);
             border-right: none;
         }
@@ -773,7 +710,7 @@
         }
 
         .membership-card.featured::before {
-            content: 'RECOMMENDED';
+            content: 'POPULAR';
             position: absolute;
             top: -10px;
             left: 50%;
@@ -1233,13 +1170,18 @@
                 order: -1;
             }
 
-            .coaches-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .founder-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .founder-image {
+                max-width: 300px;
             }
 
             .membership-grid {
-                grid-template-columns: 1fr;
-                max-width: 280px;
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 500px;
                 gap: 16px;
             }
 
@@ -1275,17 +1217,16 @@
                 display: none;
             }
 
+            .nav-photo {
+                height: 32px;
+            }
+
             section {
                 padding: 56px 0;
             }
 
             .hero {
                 padding: 0 16px;
-            }
-
-            .hero-title {
-                font-size: clamp(24px, 9vw, 48px);
-                letter-spacing: -0.01em;
             }
 
             .hero-eyebrow {
@@ -1302,26 +1243,18 @@
                 font-size: 10px;
             }
 
-            .coaches-grid {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .coach-image {
-                aspect-ratio: 4/3;
-            }
-
             .about-visual {
                 height: 240px;
             }
 
-            .about-stats {
-                gap: 24px;
-                flex-wrap: wrap;
+            .founder-image {
+                max-width: 100%;
+                aspect-ratio: 4/3;
             }
 
-            .stat-number {
-                font-size: 24px;
+            .membership-grid {
+                grid-template-columns: 1fr;
+                max-width: 280px;
             }
 
             .form-row {
@@ -1379,7 +1312,8 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <a href="#" class="nav-logo">NBC</a>
+        <!-- Placeholder: Replace with JC & Seth punch shield photo -->
+        <img src="jc-seth-punch-shield.jpg" alt="JC and Seth" class="nav-photo" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<span style=\'font-family:Syne,sans-serif;font-size:10px;color:var(--gold);opacity:0.5;\'>[ JC & Seth Photo ]</span>');">
         <span class="nav-center">Nashville, Tennessee</span>
         <button class="nav-menu-btn" aria-label="Toggle menu">
             <span></span>
@@ -1391,7 +1325,7 @@
     <div class="menu-overlay">
         <ul class="menu-links">
             <li><a href="#about" data-menu-link>About</a></li>
-            <li><a href="#coaches" data-menu-link>Coaches</a></li>
+            <li><a href="#founder" data-menu-link>Founder</a></li>
             <li><a href="#programs" data-menu-link>Programs</a></li>
             <li><a href="#membership" data-menu-link>Membership</a></li>
             <li><a href="#contact" data-menu-link>Contact</a></li>
@@ -1399,7 +1333,7 @@
         <div class="menu-footer">
             <div class="menu-contact">
                 <p>Get in touch</p>
-                <a href="mailto:info@nashvilleboxingclub.com">info@nashvilleboxingclub.com</a>
+                <a href="mailto:nashvilleboxingclub@hotmail.com">nashvilleboxingclub@hotmail.com</a>
             </div>
             <div class="menu-social">
                 <a href="#">Instagram</a>
@@ -1416,10 +1350,6 @@
         <div class="hero-content">
             <img src="NBC_Primary_Logo_3.svg" alt="Nashville Boxing Club" class="hero-logo">
             <p class="hero-eyebrow">Est. 2026 • Nashville, Tennessee</p>
-            <h1 class="hero-title">
-                <span class="line"><span>NASHVILLE</span></span>
-                <span class="line"><span class="outline">BOXING</span> <span class="gold">CLUB</span></span>
-            </h1>
             <div class="hero-cta">
                 <a href="#membership">Begin Your Journey</a>
             </div>
@@ -1462,30 +1392,32 @@
             <div class="about-grid">
                 <div class="about-content">
                     <span class="section-number">01</span>
-                    <h2 class="section-title">Where Champions<br>Are Forged</h2>
-                    <p class="about-text">Nashville Boxing Club is <strong>more than a gym</strong>—it's a private sanctuary for those who demand excellence. We've cultivated an environment where <strong>elite athletes and industry professionals</strong> train with absolute discretion.</p>
-                    <p class="about-text">Our facility combines the <strong>raw intensity of championship boxing</strong> with the amenities and privacy our distinguished members expect.</p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">Elite Coaches</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">40+</div>
-                            <div class="stat-label">Years Experience</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Discretion</div>
-                        </div>
-                    </div>
+                    <h2 class="section-title">Forging Champions.<br>Empowering Every Body.</h2>
+                    <p class="about-text">Nashville Boxing Club is <strong>more than a gym</strong>—it's a private sanctuary for those who demand excellence. We've cultivated an environment where <strong>elite athletes and everyday fitness enthusiasts</strong> train with purpose and passion.</p>
+                    <p class="about-text">Our facility combines the <strong>raw intensity of championship boxing</strong> with high-intensity conditioning to help you unlock your full potential.</p>
                 </div>
                 <div class="about-visual">
+                    <!-- Placeholder: Replace with Airam & JC photo -->
                     <div class="about-image-main">
-                        <img src="nashville-skyline.jpg" alt="Nashville Boxing Club Facility">
+                        <div class="image-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="1">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <path d="M21 15l-5-5L5 21"/>
+                            </svg>
+                            <span>Airam & JC Photo</span>
+                        </div>
                     </div>
+                    <!-- Placeholder: Replace with group photo -->
                     <div class="about-image-secondary">
-                        <img src="bg-desktop.jpg" alt="Training Area">
+                        <div class="image-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="1">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <path d="M21 15l-5-5L5 21"/>
+                            </svg>
+                            <span>Group Photo</span>
+                        </div>
                     </div>
                     <div class="about-badge">
                         <span>Est.<br>MMXXVI</span>
@@ -1495,53 +1427,29 @@
         </div>
     </section>
 
-    <!-- Coaches Section -->
-    <section class="coaches reveal" id="coaches">
+    <!-- Founder Section -->
+    <section class="founder reveal" id="founder">
         <div class="container">
-            <div class="coaches-header">
+            <div class="founder-header">
                 <span class="section-number">02</span>
-                <h2 class="section-title">Meet Your Coaches</h2>
-                <p class="section-subtitle">Three visionaries united by a singular mission: to unlock your full potential.</p>
+                <h2 class="section-title">Meet Founder & Owner</h2>
             </div>
-            <div class="coaches-grid">
-                <div class="coach-card">
-                    <div class="coach-image">
-                        <span class="coach-number">01</span>
-                        <img src="headshot-julian.jpg" alt="Julian Cortez">
+            <div class="founder-content">
+                <div class="founder-image">
+                    <span class="founder-number">01</span>
+                    <!-- Placeholder: Replace with JC headshot -->
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span>JC Photo</span>
                     </div>
-                    <h3 class="coach-name">Julian Cortez</h3>
-                    <p class="coach-role">Owner & Head Coach</p>
-                    <p class="coach-bio">Professional coach with over 40 amateur fights in Mexico. Julian has developed numerous professional fighters and amateur champions and brings that championship pedigree to every session.</p>
                 </div>
-                <div class="coach-card">
-                    <div class="coach-image">
-                        <span class="coach-number">02</span>
-                        <div class="image-placeholder">
-                            <svg viewBox="0 0 24 24" fill="none" stroke-width="1">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
-                            </svg>
-                            <span>Photo</span>
-                        </div>
-                    </div>
-                    <h3 class="coach-name">Tony "2 Step" Hill</h3>
-                    <p class="coach-role">Boxing Trainer</p>
-                    <p class="coach-bio">NASM certified trainer and amateur boxing champion with 30 years across wrestling, jiu jitsu, karate, and boxing. Two decades of teaching dance gave him the footwork—and the nickname.</p>
-                </div>
-                <div class="coach-card">
-                    <div class="coach-image">
-                        <span class="coach-number">03</span>
-                        <div class="image-placeholder">
-                            <svg viewBox="0 0 24 24" fill="none" stroke-width="1">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
-                            </svg>
-                            <span>Photo</span>
-                        </div>
-                    </div>
-                    <h3 class="coach-name">Hannah Williams</h3>
-                    <p class="coach-role">Boxing Coach</p>
-                    <p class="coach-bio">USA Boxing certified masters athlete and coach. Hannah specializes in fundamentals and fight-ready conditioning.</p>
+                <div class="founder-info">
+                    <h3 class="founder-name">Julian "JC" Cortez</h3>
+                    <p class="founder-role">Founder & Owner</p>
+                    <p class="founder-bio">A professional and amateur boxing coach with a passion for performance and fitness, he trains athletes of all levels—from competitive fighters to everyday fitness enthusiasts. He is a coach for the Nashville Smash and the founder of HIITMAN Boxing, combining elite boxing technique with high-intensity conditioning. An avid outdoorsman, he's driven by one goal: helping others unlock their full potential inside and outside the gym.</p>
                 </div>
             </div>
         </div>
@@ -1566,10 +1474,10 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="program-desc">One-on-one training tailored to your goals. Maximum focus, complete privacy.</p>
+                        <p class="program-desc">One-on-one training tailored to your goals.</p>
                         <div class="program-tags">
                             <span class="program-tag">All Levels</span>
-                            <span class="program-tag">60-90 Min</span>
+                            <span class="program-tag">60 Min</span>
                         </div>
                     </div>
                     <div class="program-item">
@@ -1613,44 +1521,52 @@
             <div class="membership-header">
                 <span class="section-number">04</span>
                 <h2 class="section-title">Membership</h2>
-                <p class="section-subtitle">Select the tier that matches your commitment.</p>
+                <p class="section-subtitle">Select the option that fits your training style.</p>
             </div>
             <div class="membership-grid">
-                <div class="membership-card">
-                    <span class="membership-tier">Foundation</span>
-                    <div class="membership-price">$299</div>
-                    <p class="membership-period">per month</p>
-                    <div class="membership-divider"></div>
-                    <ul class="membership-features">
-                        <li>Unlimited group sessions</li>
-                        <li>Open gym access</li>
-                        <li>2 private sessions/month</li>
-                    </ul>
-                    <button class="membership-cta">Get Started</button>
-                </div>
                 <div class="membership-card featured">
-                    <span class="membership-tier">Elite</span>
-                    <div class="membership-price">$599</div>
+                    <span class="membership-tier">Monthly</span>
+                    <div class="membership-price">$165</div>
                     <p class="membership-period">per month</p>
                     <div class="membership-divider"></div>
                     <ul class="membership-features">
-                        <li>Everything in Foundation</li>
-                        <li>8 private sessions/month</li>
-                        <li>Priority scheduling</li>
+                        <li>Open gym access</li>
+                        <li>Unlimited classes</li>
                     </ul>
                     <button class="membership-cta">Get Started</button>
                 </div>
                 <div class="membership-card">
-                    <span class="membership-tier">Champion</span>
-                    <div class="membership-price">$1,299</div>
-                    <p class="membership-period">per month</p>
+                    <span class="membership-tier">Drop-In</span>
+                    <div class="membership-price">$30</div>
+                    <p class="membership-period">per visit</p>
                     <div class="membership-divider"></div>
                     <ul class="membership-features">
-                        <li>Unlimited private sessions</li>
-                        <li>24/7 facility access</li>
-                        <li>Concierge scheduling</li>
+                        <li>Single class</li>
+                        <li>Or open gym session</li>
                     </ul>
-                    <button class="membership-cta">Get Started</button>
+                    <button class="membership-cta">Book Now</button>
+                </div>
+                <div class="membership-card">
+                    <span class="membership-tier">10 Pack</span>
+                    <div class="membership-price">$300</div>
+                    <p class="membership-period">10 classes</p>
+                    <div class="membership-divider"></div>
+                    <ul class="membership-features">
+                        <li>10 class sessions</li>
+                        <li>Expires in 6 months</li>
+                    </ul>
+                    <button class="membership-cta">Purchase</button>
+                </div>
+                <div class="membership-card">
+                    <span class="membership-tier">Private Training</span>
+                    <div class="membership-price">—</div>
+                    <p class="membership-period">custom pricing</p>
+                    <div class="membership-divider"></div>
+                    <ul class="membership-features">
+                        <li>Private sessions</li>
+                        <li>Competition prep</li>
+                    </ul>
+                    <button class="membership-cta">Inquire</button>
                 </div>
             </div>
         </div>
@@ -1680,7 +1596,7 @@
                     </div>
                     <div>
                         <p class="contact-label">Location</p>
-                        <p class="contact-value">Nashville, Tennessee</p>
+                        <p class="contact-value">220 Great Circle Rd<br>Nashville, TN 37228</p>
                     </div>
                 </div>
                 <div class="contact-item">
@@ -1693,7 +1609,7 @@
                     <div>
                         <p class="contact-label">Email</p>
                         <p class="contact-value">
-                            <a href="mailto:info@nashvilleboxingclub.com">info@nashvilleboxingclub.com</a>
+                            <a href="mailto:nashvilleboxingclub@hotmail.com">nashvilleboxingclub@hotmail.com</a>
                         </p>
                     </div>
                 </div>
@@ -1706,7 +1622,7 @@
                     <div>
                         <p class="contact-label">Phone</p>
                         <p class="contact-value">
-                            <a href="tel:+16155550126">(615) 555-0126</a>
+                            <a href="tel:+18474546096">(847) 454-6096</a>
                         </p>
                     </div>
                 </div>
@@ -1855,7 +1771,6 @@
         // ========== FORM HANDLING ==========
         document.getElementById('contact-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            // Here you would typically send the form data to a server
             alert('Thank you for your interest! We will be in touch soon.');
             e.target.reset();
         });
