@@ -38,6 +38,30 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ========== CSS FALLBACK FOR JS ANIMATIONS ========== */
+        /* Sections visible by default - JS will add animation class */
+        section {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .js-enabled section.animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .js-enabled section.animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Hero always visible */
+        .js-enabled .hero.animate-on-scroll {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .container {
             width: 100%;
             max-width: 1000px;
@@ -52,38 +76,7 @@
             padding: 0 24px;
         }
 
-        /* Preloader - COMMENTED OUT BUT KEPT FOR LATER */
-        .preloader {
-            position: fixed;
-            inset: 0;
-            background: var(--black);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .preloader-text {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 0.4em;
-            color: var(--gold);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* Navigation */
+        /* ========== NAVIGATION ========== */
         nav {
             position: fixed;
             top: 0;
@@ -95,11 +88,16 @@
             align-items: center;
             z-index: 1000;
             mix-blend-mode: difference;
+            transition: mix-blend-mode 0.3s ease;
+        }
+        
+        /* Fix nav blend mode when menu is open */
+        nav.menu-open {
+            mix-blend-mode: normal;
         }
 
         .nav-logo {
             height: 32px;
-            filter: brightness(0) invert(1);
         }
 
         .nav-center {
@@ -121,7 +119,8 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 8px;
+            padding: 12px; /* Increased touch target */
+            margin: -12px; /* Compensate for padding */
         }
 
         .nav-menu-btn span {
@@ -134,7 +133,7 @@
         .nav-menu-btn.active span:first-child { transform: rotate(45deg) translateY(4px); }
         .nav-menu-btn.active span:last-child { transform: rotate(-45deg) translateY(-4px); }
 
-        /* Menu Overlay */
+        /* ========== MENU OVERLAY ========== */
         .menu-overlay {
             position: fixed;
             inset: 0;
@@ -170,7 +169,11 @@
             transition: color 0.3s ease;
         }
 
-        .menu-links a:hover { color: var(--gold); }
+        @media (hover: hover) {
+            .menu-links a:hover { color: var(--gold); }
+        }
+        
+        .menu-links a:active { color: var(--gold); }
 
         .menu-footer {
             position: absolute;
@@ -208,9 +211,13 @@
             text-transform: uppercase;
         }
 
-        .menu-social a:hover { color: var(--gold); }
+        @media (hover: hover) {
+            .menu-social a:hover { color: var(--gold); }
+        }
+        
+        .menu-social a:active { color: var(--gold); }
 
-        /* Hero */
+        /* ========== HERO ========== */
         .hero {
             height: 100vh;
             height: 100dvh;
@@ -244,6 +251,15 @@
             padding: 0 16px;
             width: 100%;
             max-width: 100%;
+        }
+
+        .hero-logo {
+            width: 400px;
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.1s forwards;
         }
 
         .hero-eyebrow {
@@ -309,13 +325,22 @@
             text-transform: uppercase;
             text-decoration: none;
             color: var(--white);
-            padding: 14px 28px;
+            padding: 16px 32px; /* Increased for better touch target */
             border: 1px solid var(--gold);
             display: inline-block;
             transition: all 0.3s ease;
+            min-height: 48px; /* Minimum touch target */
+            min-width: 48px;
         }
 
-        .hero-cta a:hover {
+        @media (hover: hover) {
+            .hero-cta a:hover {
+                background: var(--gold);
+                color: var(--black);
+            }
+        }
+        
+        .hero-cta a:active {
             background: var(--gold);
             color: var(--black);
         }
@@ -347,14 +372,13 @@
             background: linear-gradient(to bottom, var(--gold), transparent);
         }
 
-        /* Marquee */
+        /* ========== MARQUEE ========== */
         .marquee-section {
             padding: 16px 0;
             border-top: 1px solid rgba(184, 134, 11, 0.2);
             border-bottom: 1px solid rgba(184, 134, 11, 0.2);
             overflow: hidden;
             width: 100%;
-            max-width: 100vw;
         }
 
         .marquee {
@@ -385,6 +409,7 @@
             height: 4px;
             background: var(--gold);
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         @keyframes marquee {
@@ -392,7 +417,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Sections */
+        /* ========== SECTIONS COMMON ========== */
         section {
             padding: 80px 0;
         }
@@ -410,9 +435,9 @@
             font-family: 'Syne', sans-serif;
             font-size: clamp(24px, 5vw, 36px);
             font-weight: 800;
-            letter-spacing: -0.01em;
-            line-height: 1.1;
-            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+            line-height: 1.3;
+            text-transform: uppercase;
         }
 
         .section-subtitle {
@@ -422,7 +447,7 @@
             max-width: 360px;
         }
 
-        /* About */
+        /* ========== ABOUT ========== */
         .about {
             background: var(--black-rich);
         }
@@ -469,9 +494,11 @@
             margin-top: 4px;
         }
 
+        /* FIXED: About visual with relative positioning */
         .about-visual {
             position: relative;
-            height: 340px;
+            aspect-ratio: 4/3;
+            min-height: 280px;
         }
 
         .about-image-main {
@@ -479,12 +506,13 @@
             top: 0;
             right: 0;
             width: 80%;
-            height: 65%;
+            height: 70%;
             background: var(--charcoal);
             border: 1px solid rgba(184, 134, 11, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         .about-image-secondary {
@@ -498,6 +526,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        .about-image-main img,
+        .about-image-secondary img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .image-placeholder {
@@ -522,10 +558,11 @@
             text-transform: uppercase;
         }
 
+        /* FIXED: Badge positioning uses calc for better centering */
         .about-badge {
             position: absolute;
             top: 50%;
-            left: 30%;
+            left: 25%;
             transform: translate(-50%, -50%);
             width: 80px;
             height: 80px;
@@ -535,6 +572,7 @@
             align-items: center;
             justify-content: center;
             background: var(--black);
+            z-index: 2;
         }
 
         .about-badge span {
@@ -547,7 +585,7 @@
             color: var(--gold);
         }
 
-        /* Coaches */
+        /* ========== COACHES ========== */
         .coaches {
             background: var(--black);
         }
@@ -566,6 +604,7 @@
             cursor: pointer;
         }
 
+        /* FIXED: Consistent aspect ratio across breakpoints */
         .coach-image {
             aspect-ratio: 3/4;
             background: var(--black-soft);
@@ -576,10 +615,31 @@
             align-items: center;
             justify-content: center;
             transition: border-color 0.3s ease;
+            overflow: hidden;
         }
 
-        .coach-card:hover .coach-image {
+        .coach-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        @media (hover: hover) {
+            .coach-card:hover .coach-image {
+                border-color: var(--gold);
+            }
+            .coach-card:hover .coach-name {
+                color: var(--gold);
+            }
+        }
+        
+        .coach-card:active .coach-image {
             border-color: var(--gold);
+        }
+        
+        .coach-card:active .coach-name {
+            color: var(--gold);
         }
 
         .coach-number {
@@ -591,6 +651,7 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             color: var(--gold);
+            z-index: 1;
         }
 
         .coach-name {
@@ -599,10 +660,6 @@
             font-weight: 700;
             margin-bottom: 4px;
             transition: color 0.3s ease;
-        }
-
-        .coach-card:hover .coach-name {
-            color: var(--gold);
         }
 
         .coach-role {
@@ -617,21 +674,22 @@
             line-height: 1.5;
         }
 
-        /* Programs */
+        /* ========== PROGRAMS ========== */
         .programs {
             background: var(--black-rich);
         }
 
         .programs-wrapper {
             display: grid;
-            grid-template-columns: 240px 1fr;
+            grid-template-columns: 1fr 1.5fr;
             gap: 48px;
         }
 
         .programs-sticky {
             position: sticky;
-            top: 100px;
+            top: 80px;
             height: fit-content;
+            align-self: start;
         }
 
         .program-item {
@@ -658,10 +716,6 @@
             transition: color 0.3s ease;
         }
 
-        .program-item:hover .program-name {
-            color: var(--gold);
-        }
-
         .program-arrow {
             width: 28px;
             height: 28px;
@@ -671,6 +725,7 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .program-arrow svg {
@@ -680,14 +735,27 @@
             transition: all 0.3s ease;
         }
 
-        .program-item:hover .program-arrow {
+        @media (hover: hover) {
+            .program-item:hover .program-name {
+                color: var(--gold);
+            }
+            .program-item:hover .program-arrow {
+                background: var(--gold);
+                border-color: var(--gold);
+            }
+            .program-item:hover .program-arrow svg {
+                stroke: var(--black);
+                transform: rotate(-45deg);
+            }
+        }
+        
+        .program-item:active .program-name {
+            color: var(--gold);
+        }
+        
+        .program-item:active .program-arrow {
             background: var(--gold);
             border-color: var(--gold);
-        }
-
-        .program-item:hover .program-arrow svg {
-            stroke: var(--black);
-            transform: rotate(-45deg);
         }
 
         .program-desc {
@@ -714,7 +782,7 @@
             color: var(--gold);
         }
 
-        /* Membership */
+        /* ========== MEMBERSHIP ========== */
         .membership {
             background: var(--black);
             text-align: center;
@@ -762,6 +830,7 @@
             font-weight: 700;
             letter-spacing: 0.1em;
             padding: 4px 12px;
+            white-space: nowrap;
         }
 
         .membership-tier {
@@ -815,11 +884,13 @@
             height: 4px;
             background: var(--gold);
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .membership-cta {
             width: 100%;
-            padding: 12px;
+            padding: 14px 16px;
+            min-height: 48px; /* Touch target */
             background: transparent;
             border: 1px solid var(--white);
             color: var(--white);
@@ -832,7 +903,15 @@
             transition: all 0.3s ease;
         }
 
-        .membership-cta:hover {
+        @media (hover: hover) {
+            .membership-cta:hover {
+                background: var(--gold);
+                border-color: var(--gold);
+                color: var(--black);
+            }
+        }
+        
+        .membership-cta:active {
             background: var(--gold);
             border-color: var(--gold);
             color: var(--black);
@@ -844,7 +923,7 @@
             color: var(--black);
         }
 
-        /* Testimonial */
+        /* ========== TESTIMONIAL ========== */
         .testimonial {
             background: var(--black-rich);
             text-align: center;
@@ -886,7 +965,7 @@
             color: var(--gold);
         }
 
-        /* Contact */
+        /* ========== CONTACT ========== */
         .contact {
             background: var(--black);
             display: grid;
@@ -925,6 +1004,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .contact-icon svg {
@@ -950,9 +1030,14 @@
         .contact-value a {
             color: var(--white);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
-        .contact-value a:hover { color: var(--gold); }
+        @media (hover: hover) {
+            .contact-value a:hover { color: var(--gold); }
+        }
+        
+        .contact-value a:active { color: var(--gold); }
 
         .contact-form-wrapper {
             padding: 64px 48px;
@@ -1000,6 +1085,9 @@
             font-family: 'Cormorant Garamond', serif;
             font-size: 15px;
             border-radius: 0;
+            -webkit-appearance: none; /* Fix iOS Safari */
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .form-group input:focus,
@@ -1024,7 +1112,8 @@
 
         .form-submit {
             align-self: flex-start;
-            padding: 12px 24px;
+            padding: 14px 28px;
+            min-height: 48px; /* Touch target */
             background: var(--gold);
             border: none;
             color: var(--black);
@@ -1035,13 +1124,65 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: background 0.3s ease;
+            -webkit-appearance: none;
         }
 
-        .form-submit:hover {
+        @media (hover: hover) {
+            .form-submit:hover {
+                background: var(--gold-light);
+            }
+        }
+        
+        .form-submit:active {
             background: var(--gold-light);
         }
 
-        /* Footer */
+        /* ========== SPONSORS ========== */
+        .sponsors-section {
+            padding: 32px 0;
+            background: var(--black-rich);
+            border-top: 1px solid rgba(184, 134, 11, 0.2);
+            overflow: hidden;
+        }
+
+        .sponsors-marquee {
+            display: flex;
+            gap: 64px;
+        }
+
+        /* Desktop: static centered */
+        @media (min-width: 601px) {
+            .sponsors-marquee {
+                justify-content: center;
+            }
+            .sponsors-content:nth-child(2) {
+                display: none;
+            }
+        }
+
+        .sponsors-content {
+            display: flex;
+            align-items: center;
+            gap: 64px;
+            flex-shrink: 0;
+        }
+
+        .sponsor-logo {
+            height: 40px;
+            width: auto;
+            opacity: 0.5;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .sponsor-logo:hover {
+                opacity: 1;
+                filter: grayscale(0%);
+            }
+        }
+
+        /* ========== FOOTER ========== */
         footer {
             background: var(--black);
             padding: 24px;
@@ -1075,9 +1216,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            padding: 8px; /* Better touch target */
+            margin: -8px;
+            transition: color 0.3s ease;
         }
 
-        .footer-cta:hover { color: var(--gold); }
+        @media (hover: hover) {
+            .footer-cta:hover { color: var(--gold); }
+        }
+        
+        .footer-cta:active { color: var(--gold); }
 
         .footer-cta svg {
             width: 12px;
@@ -1111,9 +1259,16 @@
             text-transform: uppercase;
             color: var(--text-dim);
             text-decoration: none;
+            padding: 8px;
+            margin: -8px;
+            transition: color 0.3s ease;
         }
 
-        .footer-links a:hover { color: var(--gold); }
+        @media (hover: hover) {
+            .footer-links a:hover { color: var(--gold); }
+        }
+        
+        .footer-links a:active { color: var(--gold); }
 
         .footer-social {
             display: flex;
@@ -1121,8 +1276,8 @@
         }
 
         .footer-social a {
-            width: 32px;
-            height: 32px;
+            width: 44px; /* Increased touch target */
+            height: 44px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
@@ -1130,20 +1285,29 @@
             transition: all 0.3s ease;
         }
 
-        .footer-social a:hover {
+        @media (hover: hover) {
+            .footer-social a:hover {
+                border-color: var(--gold);
+                background: var(--gold);
+            }
+            .footer-social a:hover svg { stroke: var(--black); }
+        }
+        
+        .footer-social a:active {
             border-color: var(--gold);
             background: var(--gold);
         }
-
-        .footer-social a:hover svg { stroke: var(--black); }
+        
+        .footer-social a:active svg { stroke: var(--black); }
 
         .footer-social svg {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             stroke: var(--white);
+            transition: stroke 0.3s ease;
         }
 
-        /* ========== TABLET ========== */
+        /* ========== TABLET (max-width: 900px) ========== */
         @media (max-width: 900px) {
             .about-grid {
                 grid-template-columns: 1fr;
@@ -1151,8 +1315,14 @@
             }
 
             .about-visual {
-                height: 280px;
                 order: -1;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            /* Adjust badge position for tablet */
+            .about-badge {
+                left: 20%;
             }
 
             .coaches-grid {
@@ -1169,9 +1339,10 @@
                 top: 0;
             }
 
+            /* FIXED: Wider membership cards on tablet */
             .membership-grid {
                 grid-template-columns: 1fr;
-                max-width: 280px;
+                max-width: 360px;
                 gap: 16px;
             }
 
@@ -1193,7 +1364,7 @@
             }
         }
 
-        /* ========== MOBILE ========== */
+        /* ========== MOBILE (max-width: 600px) ========== */
         @media (max-width: 600px) {
             .container, .container-narrow {
                 padding: 0 20px;
@@ -1228,8 +1399,13 @@
                 font-size: 9px;
             }
 
+            .hero-logo {
+                width: 280px;
+                margin-bottom: 24px;
+            }
+
             .hero-cta a {
-                padding: 12px 20px;
+                padding: 14px 24px;
                 font-size: 10px;
             }
 
@@ -1238,12 +1414,23 @@
                 gap: 32px;
             }
 
+            /* FIXED: Keep aspect ratio consistent on mobile */
             .coach-image {
-                aspect-ratio: 4/3;
+                aspect-ratio: 3/4;
+                max-height: 400px;
             }
 
             .about-visual {
-                height: 240px;
+                min-height: 220px;
+            }
+            
+            .about-badge {
+                width: 64px;
+                height: 64px;
+            }
+            
+            .about-badge span {
+                font-size: 7px;
             }
 
             .about-stats {
@@ -1269,19 +1456,21 @@
                 gap: 16px;
             }
 
-            .footer-top,
+            .footer-top {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
             .footer-bottom {
                 flex-direction: column;
                 gap: 16px;
                 text-align: center;
             }
 
+            /* FIXED: Removed order change for footer links */
             .footer-links {
-                order: -1;
-            }
-
-            .section-title {
-                font-size: clamp(22px, 6vw, 36px);
+                gap: 24px;
             }
 
             .testimonial-quote {
@@ -1297,15 +1486,33 @@
             .contact-form-wrapper {
                 padding: 40px 20px;
             }
+            
+            /* Mobile sponsors animation */
+            .sponsors-marquee {
+                justify-content: flex-start;
+                animation: sponsors-scroll 15s linear infinite;
+                width: max-content;
+            }
+            
+            .sponsors-content:nth-child(2) {
+                display: flex;
+            }
+            
+            .sponsors-content {
+                padding-right: 64px;
+            }
+        }
+        
+        @keyframes sponsors-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
     </style>
 </head>
 <body>
-    <!-- PRELOADER COMMENTED OUT - Uncomment the line below to re-enable -->
-    <!-- <div class="preloader"><span class="preloader-text">NBC</span></div> -->
 
     <nav>
-        <img src="IMG_7881.jpg" alt="Nashville Boxing Club" class="nav-logo">
+        <span style="font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #B8860B; letter-spacing: 0.1em;">NBC</span>
         <span class="nav-center">Nashville, Tennessee</span>
         <button class="nav-menu-btn" aria-label="Menu"><span></span><span></span></button>
     </nav>
@@ -1335,6 +1542,7 @@
         <div class="hero-bg"></div>
         <div class="hero-grid"></div>
         <div class="hero-content">
+            <img src="NBC_Primary_Logo_3.svg" alt="Nashville Boxing Club" class="hero-logo">
             <p class="hero-eyebrow">Est. 2026 • Nashville, Tennessee</p>
             <h1 class="hero-title">
                 <span class="line"><span>NASHVILLE</span></span>
@@ -1371,17 +1579,17 @@
                 <div class="about-content">
                     <span class="section-number">01</span>
                     <h2 class="section-title">Where Champions<br>Are Forged</h2>
-                    <p class="about-text">Nashville Boxing Club is <strong>more than a gym</strong>—it's a private sanctuary for those who demand excellence. We've cultivated an environment where <strong>elite athletes and entertainment professionals</strong> train with absolute discretion.</p>
+                    <p class="about-text">Nashville Boxing Club is <strong>more than a gym</strong>—it's a private sanctuary for those who demand excellence. We've cultivated an environment where <strong>elite athletes and industry professionals</strong> train with absolute discretion.</p>
                     <p class="about-text">Our facility combines the <strong>raw intensity of championship boxing</strong> with the amenities and privacy our distinguished members expect.</p>
                     <div class="about-stats">
                         <div class="stat"><div class="stat-number">3</div><div class="stat-label">Elite Coaches</div></div>
-                        <div class="stat"><div class="stat-number">24/7</div><div class="stat-label">Private Access</div></div>
+                        <div class="stat"><div class="stat-number">40+</div><div class="stat-label">Years Experience</div></div>
                         <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Discretion</div></div>
                     </div>
                 </div>
                 <div class="about-visual">
-                    <div class="about-image-main"><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Facility</span></div></div>
-                    <div class="about-image-secondary"><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Training</span></div></div>
+                    <div class="about-image-main"><img src="nashville-skyline.jpg" alt="Facility"></div>
+                    <div class="about-image-secondary"><img src="bg-desktop.jpg" alt="Facility"></div>
                     <div class="about-badge"><span>Est.<br>MMXXVI</span></div>
                 </div>
             </div>
@@ -1397,22 +1605,22 @@
             </div>
             <div class="coaches-grid">
                 <div class="coach-card">
-                    <div class="coach-image"><span class="coach-number">01</span><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Photo</span></div></div>
+                    <div class="coach-image"><span class="coach-number">01</span><img src="headshot-julian.jpg" alt="Julian Cortez"></div>
                     <h3 class="coach-name">Julian Cortez</h3>
-                    <p class="coach-role">Head Coach & Founder</p>
-                    <p class="coach-bio">Former professional middleweight with 15 years of coaching experience. Julian blends old-school fundamentals with modern sports science.</p>
+                    <p class="coach-role">Owner & Head Coach</p>
+                    <p class="coach-bio">Professional coach with over 40 amateur fights in Mexico. Julian has developed numerous professional fighters and amateur champions and brings that championship pedigree to every session.</p>
                 </div>
                 <div class="coach-card">
                     <div class="coach-image"><span class="coach-number">02</span><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Photo</span></div></div>
-                    <h3 class="coach-name">Hannah Williams</h3>
-                    <p class="coach-role">Strength & Conditioning</p>
-                    <p class="coach-bio">CSCS-certified specialist who's worked with Olympic athletes and A-list talent. Hannah builds power without bulk.</p>
+                    <h3 class="coach-name">Tony "2 Step" Hill</h3>
+                    <p class="coach-role">Boxing Trainer</p>
+                    <p class="coach-bio">NASM certified trainer and amateur boxing champion with 30 years across wrestling, jiu jitsu, karate, and boxing. Two decades of teaching dance gave him the footwork—and the nickname.</p>
                 </div>
                 <div class="coach-card">
                     <div class="coach-image"><span class="coach-number">03</span><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Photo</span></div></div>
-                    <h3 class="coach-name">Tony "2 Step" Hill</h3>
-                    <p class="coach-role">Boxing Technique</p>
-                    <p class="coach-bio">Known for legendary footwork during his amateur career, Tony specializes in defensive mastery and ring IQ.</p>
+                    <h3 class="coach-name">Hannah Williams</h3>
+                    <p class="coach-role">Boxing Coach</p>
+                    <p class="coach-bio">USA Boxing certified masters athlete and coach. Hannah specializes in fundamentals and fight-ready conditioning.</p>
                 </div>
             </div>
         </div>
@@ -1544,63 +1752,106 @@
         </div>
     </section>
 
+    <div class="sponsors-section">
+        <div class="sponsors-marquee">
+            <div class="sponsors-content">
+                <img src="sponsor1.png" alt="Sponsor" class="sponsor-logo">
+                <img src="sponsor2.png" alt="Sponsor" class="sponsor-logo">
+                <img src="sponsor3.png" alt="Sponsor" class="sponsor-logo">
+                <img src="sponsor4.png" alt="Sponsor" class="sponsor-logo">
+            </div>
+            <div class="sponsors-content">
+                <img src="sponsor1.png" alt="Sponsor" class="sponsor-logo">
+                <img src="sponsor2.png" alt="Sponsor" class="sponsor-logo">
+                <img src="sponsor3.png" alt="Sponsor" class="sponsor-logo">
+                <img src="sponsor4.png" alt="Sponsor" class="sponsor-logo">
+            </div>
+        </div>
+    </div>
+    
     <footer>
         <div class="footer-content">
             <div class="footer-top">
-                <img src="IMG_7881.jpg" alt="Nashville Boxing Club" class="footer-logo">
+                <img src="NBC_Primary_Logo_3.svg" alt="Nashville Boxing Club" class="footer-logo">
                 <a href="#" class="footer-cta">Back to Top <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
             </div>
             <div class="footer-bottom">
                 <p class="footer-copy">© 2026 Nashville Boxing Club</p>
                 <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
                 <div class="footer-social">
-                    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1"/></svg></a>
-                    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5 0-.28-.03-.56-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
-                    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1"/></svg></a>
+                    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5 0-.28-.03-.56-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // PRELOADER CODE - Currently disabled since preloader HTML is commented out
-        // To re-enable: uncomment the preloader div in HTML above, then uncomment the code below
-        /*
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const preloader = document.querySelector('.preloader');
-                if (preloader) preloader.classList.add('hidden');
-            }, 1000);
-        });
-        */
+        // Add js-enabled class for progressive enhancement
+        document.documentElement.classList.add('js-enabled');
 
+        // Menu toggle with nav blend mode fix
         const menuBtn = document.querySelector('.nav-menu-btn');
         const menuOverlay = document.querySelector('.menu-overlay');
+        const nav = document.querySelector('nav');
+        
+        menuBtn.addEventListener('click', () => {
+            const isOpening = !menuBtn.classList.contains('active');
+            menuBtn.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            nav.classList.toggle('menu-open');
+            document.body.style.overflow = isOpening ? 'hidden' : '';
+        });
+
+        // Close menu when clicking a link
         document.querySelectorAll('[data-menu-link]').forEach(link => {
             link.addEventListener('click', () => {
                 menuBtn.classList.remove('active');
                 menuOverlay.classList.remove('active');
+                nav.classList.remove('menu-open');
                 document.body.style.overflow = '';
             });
         });
-        menuBtn.addEventListener('click', () => {
-            menuBtn.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
-            document.body.style.overflow = menuOverlay.classList.contains('active') ? 'hidden' : '';
-        });
 
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', e => {
-                e.preventDefault();
-                document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', e => {
+                const href = anchor.getAttribute('href');
+                if (href === '#') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
 
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }});
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.about-content, .about-visual, .coach-card, .program-item, .membership-card, .testimonial-content').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            obs.observe(e
+        // Scroll animations with progressive enhancement
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, observerOptions);
+
+        // Add animation class to sections (except hero)
+        document.querySelectorAll('section').forEach(section => {
+            if (!section.classList.contains('hero')) {
+                section.classList.add('animate-on-scroll');
+                observer.observe(section);
+            }
+        });
+    </script>
+</body>
+</html>
