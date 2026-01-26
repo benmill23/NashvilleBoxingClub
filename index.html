@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ========== CSS VARIABLES ========== */
         :root {
             --gold: #B8860B;
             --gold-light: #C4960F;
@@ -17,8 +18,11 @@
             --charcoal: #1E1E1E;
             --white: #FFFFFF;
             --text-dim: rgba(255, 255, 255, 0.5);
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --border-gold: rgba(184, 134, 11, 0.2);
         }
 
+        /* ========== RESET & BASE ========== */
         * {
             margin: 0;
             padding: 0;
@@ -38,30 +42,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ========== CSS FALLBACK FOR JS ANIMATIONS ========== */
-        /* Sections visible by default - JS will add animation class */
-        section {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .js-enabled section.animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .js-enabled section.animate-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Hero always visible */
-        .js-enabled .hero.animate-on-scroll {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        /* ========== LAYOUT ========== */
         .container {
             width: 100%;
             max-width: 1000px;
@@ -69,11 +50,40 @@
             padding: 0 24px;
         }
 
-        .container-narrow {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 24px;
+        section {
+            padding: 80px 0;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes revealText {
+            to { transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes sponsorsScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Scroll reveal - applied via CSS to avoid FOUC */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* ========== NAVIGATION ========== */
@@ -88,16 +98,15 @@
             align-items: center;
             z-index: 1000;
             mix-blend-mode: difference;
-            transition: mix-blend-mode 0.3s ease;
-        }
-        
-        /* Fix nav blend mode when menu is open */
-        nav.menu-open {
-            mix-blend-mode: normal;
         }
 
         .nav-logo {
-            height: 32px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-decoration: none;
         }
 
         .nav-center {
@@ -119,8 +128,7 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 12px; /* Increased touch target */
-            margin: -12px; /* Compensate for padding */
+            padding: 8px;
         }
 
         .nav-menu-btn span {
@@ -130,8 +138,13 @@
             transition: all 0.3s ease;
         }
 
-        .nav-menu-btn.active span:first-child { transform: rotate(45deg) translateY(4px); }
-        .nav-menu-btn.active span:last-child { transform: rotate(-45deg) translateY(-4px); }
+        .nav-menu-btn.active span:first-child {
+            transform: rotate(45deg) translateY(4px);
+        }
+
+        .nav-menu-btn.active span:last-child {
+            transform: rotate(-45deg) translateY(-4px);
+        }
 
         /* ========== MENU OVERLAY ========== */
         .menu-overlay {
@@ -169,11 +182,9 @@
             transition: color 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .menu-links a:hover { color: var(--gold); }
+        .menu-links a:hover {
+            color: var(--gold);
         }
-        
-        .menu-links a:active { color: var(--gold); }
 
         .menu-footer {
             position: absolute;
@@ -211,11 +222,9 @@
             text-transform: uppercase;
         }
 
-        @media (hover: hover) {
-            .menu-social a:hover { color: var(--gold); }
+        .menu-social a:hover {
+            color: var(--gold);
         }
-        
-        .menu-social a:active { color: var(--gold); }
 
         /* ========== HERO ========== */
         .hero {
@@ -231,16 +240,18 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 30% 30%, rgba(184, 134, 11, 0.05) 0%, transparent 50%),
-                        radial-gradient(ellipse at 70% 70%, rgba(184, 134, 11, 0.03) 0%, transparent 50%),
-                        var(--black);
+            background: 
+                radial-gradient(ellipse at 30% 30%, rgba(184, 134, 11, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(184, 134, 11, 0.03) 0%, transparent 50%),
+                var(--black);
         }
 
         .hero-grid {
             position: absolute;
             inset: 0;
-            background-image: linear-gradient(rgba(184, 134, 11, 0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(184, 134, 11, 0.03) 1px, transparent 1px);
+            background-image: 
+                linear-gradient(rgba(184, 134, 11, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(184, 134, 11, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
         }
 
@@ -250,7 +261,6 @@
             text-align: center;
             padding: 0 16px;
             width: 100%;
-            max-width: 100%;
         }
 
         .hero-logo {
@@ -281,7 +291,6 @@
             line-height: 1;
             letter-spacing: -0.02em;
             margin-bottom: 24px;
-            width: 100%;
         }
 
         .hero-title .line {
@@ -303,12 +312,8 @@
             color: transparent;
         }
 
-        .hero-title .gold { color: var(--gold); }
-
-        @keyframes revealText { to { transform: translateY(0); } }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+        .hero-title .gold {
+            color: var(--gold);
         }
 
         .hero-cta {
@@ -325,22 +330,13 @@
             text-transform: uppercase;
             text-decoration: none;
             color: var(--white);
-            padding: 16px 32px; /* Increased for better touch target */
+            padding: 14px 28px;
             border: 1px solid var(--gold);
             display: inline-block;
             transition: all 0.3s ease;
-            min-height: 48px; /* Minimum touch target */
-            min-width: 48px;
         }
 
-        @media (hover: hover) {
-            .hero-cta a:hover {
-                background: var(--gold);
-                color: var(--black);
-            }
-        }
-        
-        .hero-cta a:active {
+        .hero-cta a:hover {
             background: var(--gold);
             color: var(--black);
         }
@@ -375,10 +371,9 @@
         /* ========== MARQUEE ========== */
         .marquee-section {
             padding: 16px 0;
-            border-top: 1px solid rgba(184, 134, 11, 0.2);
-            border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+            border-top: 1px solid var(--border-gold);
+            border-bottom: 1px solid var(--border-gold);
             overflow: hidden;
-            width: 100%;
         }
 
         .marquee {
@@ -412,16 +407,7 @@
             flex-shrink: 0;
         }
 
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* ========== SECTIONS COMMON ========== */
-        section {
-            padding: 80px 0;
-        }
-
+        /* ========== SECTION HEADERS ========== */
         .section-number {
             font-family: 'Syne', sans-serif;
             font-size: 10px;
@@ -475,7 +461,7 @@
             gap: 32px;
             margin-top: 24px;
             padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border-subtle);
         }
 
         .stat-number {
@@ -494,11 +480,9 @@
             margin-top: 4px;
         }
 
-        /* FIXED: About visual with relative positioning */
         .about-visual {
             position: relative;
-            aspect-ratio: 4/3;
-            min-height: 280px;
+            height: 340px;
         }
 
         .about-image-main {
@@ -506,26 +490,9 @@
             top: 0;
             right: 0;
             width: 80%;
-            height: 70%;
+            height: 65%;
             background: var(--charcoal);
             border: 1px solid rgba(184, 134, 11, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .about-image-secondary {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50%;
-            height: 50%;
-            background: var(--black-soft);
-            border: 1px solid rgba(184, 134, 11, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
 
@@ -536,33 +503,21 @@
             object-fit: cover;
         }
 
-        .image-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            color: var(--gold);
-            opacity: 0.3;
+        .about-image-secondary {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            background: var(--black-soft);
+            border: 1px solid var(--border-gold);
+            overflow: hidden;
         }
 
-        .image-placeholder svg {
-            width: 24px;
-            height: 24px;
-            stroke: currentColor;
-        }
-
-        .image-placeholder span {
-            font-family: 'Syne', sans-serif;
-            font-size: 8px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-
-        /* FIXED: Badge positioning uses calc for better centering */
         .about-badge {
             position: absolute;
             top: 50%;
-            left: 25%;
+            left: 30%;
             transform: translate(-50%, -50%);
             width: 80px;
             height: 80px;
@@ -572,7 +527,6 @@
             align-items: center;
             justify-content: center;
             background: var(--black);
-            z-index: 2;
         }
 
         .about-badge span {
@@ -604,7 +558,6 @@
             cursor: pointer;
         }
 
-        /* FIXED: Consistent aspect ratio across breakpoints */
         .coach-image {
             aspect-ratio: 3/4;
             background: var(--black-soft);
@@ -625,21 +578,8 @@
             object-position: top center;
         }
 
-        @media (hover: hover) {
-            .coach-card:hover .coach-image {
-                border-color: var(--gold);
-            }
-            .coach-card:hover .coach-name {
-                color: var(--gold);
-            }
-        }
-        
-        .coach-card:active .coach-image {
+        .coach-card:hover .coach-image {
             border-color: var(--gold);
-        }
-        
-        .coach-card:active .coach-name {
-            color: var(--gold);
         }
 
         .coach-number {
@@ -662,6 +602,10 @@
             transition: color 0.3s ease;
         }
 
+        .coach-card:hover .coach-name {
+            color: var(--gold);
+        }
+
         .coach-role {
             font-size: 13px;
             color: var(--gold);
@@ -674,6 +618,29 @@
             line-height: 1.5;
         }
 
+        /* Image placeholder for missing photos */
+        .image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--gold);
+            opacity: 0.3;
+        }
+
+        .image-placeholder svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+        }
+
+        .image-placeholder span {
+            font-family: 'Syne', sans-serif;
+            font-size: 8px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
         /* ========== PROGRAMS ========== */
         .programs {
             background: var(--black-rich);
@@ -681,25 +648,22 @@
 
         .programs-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 48px;
+            grid-template-columns: 1fr;
+            gap: 32px;
         }
 
-        .programs-sticky {
-            position: sticky;
-            top: 80px;
-            height: fit-content;
-            align-self: start;
+        .programs-header {
+            margin-bottom: 8px;
         }
 
         .program-item {
             padding: 24px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-subtle);
             cursor: pointer;
         }
 
         .program-item:first-child {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border-subtle);
         }
 
         .program-header {
@@ -714,6 +678,10 @@
             font-size: 18px;
             font-weight: 700;
             transition: color 0.3s ease;
+        }
+
+        .program-item:hover .program-name {
+            color: var(--gold);
         }
 
         .program-arrow {
@@ -735,27 +703,14 @@
             transition: all 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .program-item:hover .program-name {
-                color: var(--gold);
-            }
-            .program-item:hover .program-arrow {
-                background: var(--gold);
-                border-color: var(--gold);
-            }
-            .program-item:hover .program-arrow svg {
-                stroke: var(--black);
-                transform: rotate(-45deg);
-            }
-        }
-        
-        .program-item:active .program-name {
-            color: var(--gold);
-        }
-        
-        .program-item:active .program-arrow {
+        .program-item:hover .program-arrow {
             background: var(--gold);
             border-color: var(--gold);
+        }
+
+        .program-item:hover .program-arrow svg {
+            stroke: var(--black);
+            transform: rotate(-45deg);
         }
 
         .program-desc {
@@ -803,12 +758,12 @@
 
         .membership-card {
             padding: 32px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-subtle);
             border-right: none;
         }
 
         .membership-card:last-child {
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid var(--border-subtle);
         }
 
         .membership-card.featured {
@@ -830,7 +785,6 @@
             font-weight: 700;
             letter-spacing: 0.1em;
             padding: 4px 12px;
-            white-space: nowrap;
         }
 
         .membership-tier {
@@ -889,8 +843,7 @@
 
         .membership-cta {
             width: 100%;
-            padding: 14px 16px;
-            min-height: 48px; /* Touch target */
+            padding: 12px;
             background: transparent;
             border: 1px solid var(--white);
             color: var(--white);
@@ -903,15 +856,7 @@
             transition: all 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .membership-cta:hover {
-                background: var(--gold);
-                border-color: var(--gold);
-                color: var(--black);
-            }
-        }
-        
-        .membership-cta:active {
+        .membership-cta:hover {
             background: var(--gold);
             border-color: var(--gold);
             color: var(--black);
@@ -1033,11 +978,9 @@
             transition: color 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .contact-value a:hover { color: var(--gold); }
+        .contact-value a:hover {
+            color: var(--gold);
         }
-        
-        .contact-value a:active { color: var(--gold); }
 
         .contact-form-wrapper {
             padding: 64px 48px;
@@ -1085,9 +1028,7 @@
             font-family: 'Cormorant Garamond', serif;
             font-size: 15px;
             border-radius: 0;
-            -webkit-appearance: none; /* Fix iOS Safari */
-            -moz-appearance: none;
-            appearance: none;
+            -webkit-appearance: none;
         }
 
         .form-group input:focus,
@@ -1112,8 +1053,7 @@
 
         .form-submit {
             align-self: flex-start;
-            padding: 14px 28px;
-            min-height: 48px; /* Touch target */
+            padding: 12px 24px;
             background: var(--gold);
             border: none;
             color: var(--black);
@@ -1124,16 +1064,9 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: background 0.3s ease;
-            -webkit-appearance: none;
         }
 
-        @media (hover: hover) {
-            .form-submit:hover {
-                background: var(--gold-light);
-            }
-        }
-        
-        .form-submit:active {
+        .form-submit:hover {
             background: var(--gold-light);
         }
 
@@ -1141,30 +1074,24 @@
         .sponsors-section {
             padding: 32px 0;
             background: var(--black-rich);
-            border-top: 1px solid rgba(184, 134, 11, 0.2);
+            border-top: 1px solid var(--border-gold);
             overflow: hidden;
         }
 
         .sponsors-marquee {
             display: flex;
+            justify-content: center;
             gap: 64px;
-        }
-
-        /* Desktop: static centered */
-        @media (min-width: 601px) {
-            .sponsors-marquee {
-                justify-content: center;
-            }
-            .sponsors-content:nth-child(2) {
-                display: none;
-            }
         }
 
         .sponsors-content {
             display: flex;
             align-items: center;
             gap: 64px;
-            flex-shrink: 0;
+        }
+
+        .sponsors-content:nth-child(2) {
+            display: none;
         }
 
         .sponsor-logo {
@@ -1175,18 +1102,16 @@
             transition: all 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .sponsor-logo:hover {
-                opacity: 1;
-                filter: grayscale(0%);
-            }
+        .sponsor-logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
         }
 
         /* ========== FOOTER ========== */
         footer {
             background: var(--black);
             padding: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border-subtle);
         }
 
         .footer-content {
@@ -1216,16 +1141,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px; /* Better touch target */
-            margin: -8px;
+            cursor: pointer;
+            background: none;
+            border: none;
             transition: color 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .footer-cta:hover { color: var(--gold); }
+        .footer-cta:hover {
+            color: var(--gold);
         }
-        
-        .footer-cta:active { color: var(--gold); }
 
         .footer-cta svg {
             width: 12px;
@@ -1238,7 +1162,7 @@
             justify-content: space-between;
             align-items: center;
             padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border-subtle);
         }
 
         .footer-copy {
@@ -1259,16 +1183,12 @@
             text-transform: uppercase;
             color: var(--text-dim);
             text-decoration: none;
-            padding: 8px;
-            margin: -8px;
             transition: color 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .footer-links a:hover { color: var(--gold); }
+        .footer-links a:hover {
+            color: var(--gold);
         }
-        
-        .footer-links a:active { color: var(--gold); }
 
         .footer-social {
             display: flex;
@@ -1276,8 +1196,8 @@
         }
 
         .footer-social a {
-            width: 44px; /* Increased touch target */
-            height: 44px;
+            width: 32px;
+            height: 32px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
@@ -1285,24 +1205,18 @@
             transition: all 0.3s ease;
         }
 
-        @media (hover: hover) {
-            .footer-social a:hover {
-                border-color: var(--gold);
-                background: var(--gold);
-            }
-            .footer-social a:hover svg { stroke: var(--black); }
-        }
-        
-        .footer-social a:active {
+        .footer-social a:hover {
             border-color: var(--gold);
             background: var(--gold);
         }
-        
-        .footer-social a:active svg { stroke: var(--black); }
+
+        .footer-social a:hover svg {
+            stroke: var(--black);
+        }
 
         .footer-social svg {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             stroke: var(--white);
             transition: stroke 0.3s ease;
         }
@@ -1315,39 +1229,22 @@
             }
 
             .about-visual {
+                height: 280px;
                 order: -1;
-                max-width: 400px;
-                margin: 0 auto;
-            }
-            
-            /* Adjust badge position for tablet */
-            .about-badge {
-                left: 20%;
             }
 
             .coaches-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .programs-wrapper {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .programs-sticky {
-                position: relative;
-                top: 0;
-            }
-
-            /* FIXED: Wider membership cards on tablet */
             .membership-grid {
                 grid-template-columns: 1fr;
-                max-width: 360px;
+                max-width: 280px;
                 gap: 16px;
             }
 
             .membership-card {
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid var(--border-subtle);
             }
 
             .membership-card.featured {
@@ -1366,16 +1263,12 @@
 
         /* ========== MOBILE (max-width: 600px) ========== */
         @media (max-width: 600px) {
-            .container, .container-narrow {
+            .container {
                 padding: 0 20px;
             }
 
             nav {
                 padding: 16px 20px;
-            }
-
-            .nav-logo {
-                height: 28px;
             }
 
             .nav-center {
@@ -1405,7 +1298,7 @@
             }
 
             .hero-cta a {
-                padding: 14px 24px;
+                padding: 12px 20px;
                 font-size: 10px;
             }
 
@@ -1414,23 +1307,12 @@
                 gap: 32px;
             }
 
-            /* FIXED: Keep aspect ratio consistent on mobile */
             .coach-image {
-                aspect-ratio: 3/4;
-                max-height: 400px;
+                aspect-ratio: 4/3;
             }
 
             .about-visual {
-                min-height: 220px;
-            }
-            
-            .about-badge {
-                width: 64px;
-                height: 64px;
-            }
-            
-            .about-badge span {
-                font-size: 7px;
+                height: 240px;
             }
 
             .about-stats {
@@ -1456,21 +1338,15 @@
                 gap: 16px;
             }
 
-            .footer-top {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-
+            .footer-top,
             .footer-bottom {
                 flex-direction: column;
                 gap: 16px;
                 text-align: center;
             }
 
-            /* FIXED: Removed order change for footer links */
             .footer-links {
-                gap: 24px;
+                order: -1;
             }
 
             .testimonial-quote {
@@ -1478,45 +1354,40 @@
                 padding: 0 10px;
             }
 
-            .contact {
-                grid-template-columns: 1fr;
-            }
-
             .contact-info,
             .contact-form-wrapper {
                 padding: 40px 20px;
             }
-            
-            /* Mobile sponsors animation */
+
+            /* Mobile sponsors marquee */
             .sponsors-marquee {
                 justify-content: flex-start;
-                animation: sponsors-scroll 15s linear infinite;
+                animation: sponsorsScroll 15s linear infinite;
                 width: max-content;
             }
-            
+
             .sponsors-content:nth-child(2) {
                 display: flex;
             }
-            
+
             .sponsors-content {
                 padding-right: 64px;
             }
         }
-        
-        @keyframes sponsors-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
     </style>
 </head>
 <body>
-
+    <!-- Navigation -->
     <nav>
-        <span style="font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #B8860B; letter-spacing: 0.1em;">NBC</span>
+        <a href="#" class="nav-logo">NBC</a>
         <span class="nav-center">Nashville, Tennessee</span>
-        <button class="nav-menu-btn" aria-label="Menu"><span></span><span></span></button>
+        <button class="nav-menu-btn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+        </button>
     </nav>
 
+    <!-- Menu Overlay -->
     <div class="menu-overlay">
         <ul class="menu-links">
             <li><a href="#about" data-menu-link>About</a></li>
@@ -1538,6 +1409,7 @@
         </div>
     </div>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="hero-grid"></div>
@@ -1548,7 +1420,9 @@
                 <span class="line"><span>NASHVILLE</span></span>
                 <span class="line"><span class="outline">BOXING</span> <span class="gold">CLUB</span></span>
             </h1>
-            <div class="hero-cta"><a href="#membership">Begin Your Journey</a></div>
+            <div class="hero-cta">
+                <a href="#membership">Begin Your Journey</a>
+            </div>
         </div>
         <div class="hero-scroll">
             <span>Scroll</span>
@@ -1556,24 +1430,34 @@
         </div>
     </section>
 
+    <!-- Marquee -->
     <div class="marquee-section">
         <div class="marquee">
             <div class="marquee-content">
-                <span class="marquee-item">Elite Training</span><span class="marquee-dot"></span>
-                <span class="marquee-item">Private Sessions</span><span class="marquee-dot"></span>
-                <span class="marquee-item">World-Class Coaches</span><span class="marquee-dot"></span>
-                <span class="marquee-item">Exclusive Access</span><span class="marquee-dot"></span>
+                <span class="marquee-item">Elite Training</span>
+                <span class="marquee-dot"></span>
+                <span class="marquee-item">Private Sessions</span>
+                <span class="marquee-dot"></span>
+                <span class="marquee-item">World-Class Coaches</span>
+                <span class="marquee-dot"></span>
+                <span class="marquee-item">Exclusive Access</span>
+                <span class="marquee-dot"></span>
             </div>
             <div class="marquee-content">
-                <span class="marquee-item">Elite Training</span><span class="marquee-dot"></span>
-                <span class="marquee-item">Private Sessions</span><span class="marquee-dot"></span>
-                <span class="marquee-item">World-Class Coaches</span><span class="marquee-dot"></span>
-                <span class="marquee-item">Exclusive Access</span><span class="marquee-dot"></span>
+                <span class="marquee-item">Elite Training</span>
+                <span class="marquee-dot"></span>
+                <span class="marquee-item">Private Sessions</span>
+                <span class="marquee-dot"></span>
+                <span class="marquee-item">World-Class Coaches</span>
+                <span class="marquee-dot"></span>
+                <span class="marquee-item">Exclusive Access</span>
+                <span class="marquee-dot"></span>
             </div>
         </div>
     </div>
 
-    <section class="about" id="about">
+    <!-- About Section -->
+    <section class="about reveal" id="about">
         <div class="container">
             <div class="about-grid">
                 <div class="about-content">
@@ -1582,21 +1466,37 @@
                     <p class="about-text">Nashville Boxing Club is <strong>more than a gym</strong>—it's a private sanctuary for those who demand excellence. We've cultivated an environment where <strong>elite athletes and industry professionals</strong> train with absolute discretion.</p>
                     <p class="about-text">Our facility combines the <strong>raw intensity of championship boxing</strong> with the amenities and privacy our distinguished members expect.</p>
                     <div class="about-stats">
-                        <div class="stat"><div class="stat-number">3</div><div class="stat-label">Elite Coaches</div></div>
-                        <div class="stat"><div class="stat-number">40+</div><div class="stat-label">Years Experience</div></div>
-                        <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Discretion</div></div>
+                        <div class="stat">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Elite Coaches</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">40+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Discretion</div>
+                        </div>
                     </div>
                 </div>
                 <div class="about-visual">
-                    <div class="about-image-main"><img src="nashville-skyline.jpg" alt="Facility"></div>
-                    <div class="about-image-secondary"><img src="bg-desktop.jpg" alt="Facility"></div>
-                    <div class="about-badge"><span>Est.<br>MMXXVI</span></div>
+                    <div class="about-image-main">
+                        <img src="nashville-skyline.jpg" alt="Nashville Boxing Club Facility">
+                    </div>
+                    <div class="about-image-secondary">
+                        <img src="bg-desktop.jpg" alt="Training Area">
+                    </div>
+                    <div class="about-badge">
+                        <span>Est.<br>MMXXVI</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="coaches" id="coaches">
+    <!-- Coaches Section -->
+    <section class="coaches reveal" id="coaches">
         <div class="container">
             <div class="coaches-header">
                 <span class="section-number">02</span>
@@ -1605,19 +1505,40 @@
             </div>
             <div class="coaches-grid">
                 <div class="coach-card">
-                    <div class="coach-image"><span class="coach-number">01</span><img src="headshot-julian.jpg" alt="Julian Cortez"></div>
+                    <div class="coach-image">
+                        <span class="coach-number">01</span>
+                        <img src="headshot-julian.jpg" alt="Julian Cortez">
+                    </div>
                     <h3 class="coach-name">Julian Cortez</h3>
                     <p class="coach-role">Owner & Head Coach</p>
                     <p class="coach-bio">Professional coach with over 40 amateur fights in Mexico. Julian has developed numerous professional fighters and amateur champions and brings that championship pedigree to every session.</p>
                 </div>
                 <div class="coach-card">
-                    <div class="coach-image"><span class="coach-number">02</span><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Photo</span></div></div>
+                    <div class="coach-image">
+                        <span class="coach-number">02</span>
+                        <div class="image-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="1">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>Photo</span>
+                        </div>
+                    </div>
                     <h3 class="coach-name">Tony "2 Step" Hill</h3>
                     <p class="coach-role">Boxing Trainer</p>
                     <p class="coach-bio">NASM certified trainer and amateur boxing champion with 30 years across wrestling, jiu jitsu, karate, and boxing. Two decades of teaching dance gave him the footwork—and the nickname.</p>
                 </div>
                 <div class="coach-card">
-                    <div class="coach-image"><span class="coach-number">03</span><div class="image-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Photo</span></div></div>
+                    <div class="coach-image">
+                        <span class="coach-number">03</span>
+                        <div class="image-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="1">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>Photo</span>
+                        </div>
+                    </div>
                     <h3 class="coach-name">Hannah Williams</h3>
                     <p class="coach-role">Boxing Coach</p>
                     <p class="coach-bio">USA Boxing certified masters athlete and coach. Hannah specializes in fundamentals and fight-ready conditioning.</p>
@@ -1626,10 +1547,11 @@
         </div>
     </section>
 
-    <section class="programs" id="programs">
+    <!-- Programs Section -->
+    <section class="programs reveal" id="programs">
         <div class="container">
             <div class="programs-wrapper">
-                <div class="programs-sticky">
+                <div class="programs-header">
                     <span class="section-number">03</span>
                     <h2 class="section-title">Training<br>Programs</h2>
                     <p class="section-subtitle">From first-timers to title contenders, we have a path for you.</p>
@@ -1638,33 +1560,55 @@
                     <div class="program-item">
                         <div class="program-header">
                             <h3 class="program-name">Private Sessions</h3>
-                            <div class="program-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
+                            <div class="program-arrow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                </svg>
+                            </div>
                         </div>
                         <p class="program-desc">One-on-one training tailored to your goals. Maximum focus, complete privacy.</p>
-                        <div class="program-tags"><span class="program-tag">All Levels</span><span class="program-tag">60-90 Min</span></div>
+                        <div class="program-tags">
+                            <span class="program-tag">All Levels</span>
+                            <span class="program-tag">60-90 Min</span>
+                        </div>
                     </div>
                     <div class="program-item">
                         <div class="program-header">
                             <h3 class="program-name">Small Group Training</h3>
-                            <div class="program-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
+                            <div class="program-arrow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                </svg>
+                            </div>
                         </div>
                         <p class="program-desc">Intimate sessions capped at 6 members. Boxing technique meets functional conditioning.</p>
-                        <div class="program-tags"><span class="program-tag">Max 6</span><span class="program-tag">60 Min</span></div>
+                        <div class="program-tags">
+                            <span class="program-tag">Max 6</span>
+                            <span class="program-tag">60 Min</span>
+                        </div>
                     </div>
                     <div class="program-item">
                         <div class="program-header">
                             <h3 class="program-name">Competition Prep</h3>
-                            <div class="program-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
+                            <div class="program-arrow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                </svg>
+                            </div>
                         </div>
                         <p class="program-desc">Full fight camp: sparring, strategy, nutrition, and mental conditioning.</p>
-                        <div class="program-tags"><span class="program-tag">Advanced</span><span class="program-tag">8-12 Weeks</span></div>
+                        <div class="program-tags">
+                            <span class="program-tag">Advanced</span>
+                            <span class="program-tag">8-12 Weeks</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="membership" id="membership">
+    <!-- Membership Section -->
+    <section class="membership reveal" id="membership">
         <div class="container">
             <div class="membership-header">
                 <span class="section-number">04</span>
@@ -1712,46 +1656,88 @@
         </div>
     </section>
 
-    <section class="testimonial">
+    <!-- Testimonial Section -->
+    <section class="testimonial reveal">
         <div class="testimonial-content">
             <p class="testimonial-quote">"Nashville Boxing Club isn't just where I train—it's where I found a team that understands what it means to perform at the highest level."</p>
             <span class="testimonial-author">— NBC Member Since 2026</span>
         </div>
     </section>
 
-    <section class="contact" id="contact">
+    <!-- Contact Section -->
+    <section class="contact reveal" id="contact">
         <div class="contact-info">
             <span class="section-number">05</span>
             <h2 class="section-title">Get In Touch</h2>
             <p class="contact-text">Ready to experience Nashville Boxing Club? Book a private tour and meet our coaching team.</p>
             <div class="contact-details">
                 <div class="contact-item">
-                    <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                    <div><p class="contact-label">Location</p><p class="contact-value">Nashville, Tennessee</p></div>
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="contact-label">Location</p>
+                        <p class="contact-value">Nashville, Tennessee</p>
+                    </div>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-                    <div><p class="contact-label">Email</p><p class="contact-value"><a href="mailto:info@nashvilleboxingclub.com">info@nashvilleboxingclub.com</a></p></div>
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="contact-label">Email</p>
+                        <p class="contact-value">
+                            <a href="mailto:info@nashvilleboxingclub.com">info@nashvilleboxingclub.com</a>
+                        </p>
+                    </div>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.7 2.35a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.34 1.54.57 2.35.7A2 2 0 0 1 22 16.92z"/></svg></div>
-                    <div><p class="contact-label">Phone</p><p class="contact-value"><a href="tel:+16155550126">(615) 555-0126</a></p></div>
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.7 2.35a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.34 1.54.57 2.35.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="contact-label">Phone</p>
+                        <p class="contact-value">
+                            <a href="tel:+16155550126">(615) 555-0126</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="contact-form-wrapper">
-            <form class="contact-form">
+            <form class="contact-form" id="contact-form">
                 <div class="form-row">
-                    <div class="form-group"><input type="text" id="name" placeholder=" " required><label for="name">Name</label></div>
-                    <div class="form-group"><input type="email" id="email" placeholder=" " required><label for="email">Email</label></div>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder=" " required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder=" " required>
+                        <label for="email">Email</label>
+                    </div>
                 </div>
-                <div class="form-group"><input type="tel" id="phone" placeholder=" "><label for="phone">Phone</label></div>
-                <div class="form-group"><textarea id="message" placeholder=" "></textarea><label for="message">Your Goals</label></div>
+                <div class="form-group">
+                    <input type="tel" id="phone" name="phone" placeholder=" ">
+                    <label for="phone">Phone</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" placeholder=" "></textarea>
+                    <label for="message">Your Goals</label>
+                </div>
                 <button type="submit" class="form-submit">Request a Tour</button>
             </form>
         </div>
     </section>
 
+    <!-- Sponsors Section -->
     <div class="sponsors-section">
         <div class="sponsors-marquee">
             <div class="sponsors-content">
@@ -1768,40 +1754,58 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-top">
                 <img src="NBC_Primary_Logo_3.svg" alt="Nashville Boxing Club" class="footer-logo">
-                <a href="#" class="footer-cta">Back to Top <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+                <button class="footer-cta" id="back-to-top">
+                    Back to Top
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                    </svg>
+                </button>
             </div>
             <div class="footer-bottom">
                 <p class="footer-copy">© 2026 Nashville Boxing Club</p>
-                <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+                <div class="footer-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
                 <div class="footer-social">
-                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1"/></svg></a>
-                    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5 0-.28-.03-.56-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
-                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/>
+                            <circle cx="12" cy="12" r="4"/>
+                            <circle cx="18" cy="6" r="1"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5 0-.28-.03-.56-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Add js-enabled class for progressive enhancement
-        document.documentElement.classList.add('js-enabled');
-
-        // Menu toggle with nav blend mode fix
+        // ========== MENU TOGGLE ==========
         const menuBtn = document.querySelector('.nav-menu-btn');
         const menuOverlay = document.querySelector('.menu-overlay');
-        const nav = document.querySelector('nav');
-        
+
         menuBtn.addEventListener('click', () => {
-            const isOpening = !menuBtn.classList.contains('active');
             menuBtn.classList.toggle('active');
             menuOverlay.classList.toggle('active');
-            nav.classList.toggle('menu-open');
-            document.body.style.overflow = isOpening ? 'hidden' : '';
+            document.body.style.overflow = menuOverlay.classList.contains('active') ? 'hidden' : '';
         });
 
         // Close menu when clicking a link
@@ -1809,48 +1813,51 @@
             link.addEventListener('click', () => {
                 menuBtn.classList.remove('active');
                 menuOverlay.classList.remove('active');
-                nav.classList.remove('menu-open');
                 document.body.style.overflow = '';
             });
         });
 
-        // Smooth scroll for anchor links
+        // ========== SMOOTH SCROLL ==========
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', e => {
+            anchor.addEventListener('click', (e) => {
                 const href = anchor.getAttribute('href');
-                if (href === '#') {
+                if (href !== '#') {
                     e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    return;
-                }
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
             });
         });
 
-        // Scroll animations with progressive enhancement
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // ========== BACK TO TOP ==========
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-        const observer = new IntersectionObserver((entries) => {
+        // ========== SCROLL REVEAL ==========
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
+                    entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
 
-        // Add animation class to sections (except hero)
-        document.querySelectorAll('section').forEach(section => {
-            if (!section.classList.contains('hero')) {
-                section.classList.add('animate-on-scroll');
-                observer.observe(section);
-            }
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ========== FORM HANDLING ==========
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Here you would typically send the form data to a server
+            alert('Thank you for your interest! We will be in touch soon.');
+            e.target.reset();
         });
     </script>
 </body>
