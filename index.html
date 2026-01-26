@@ -100,11 +100,13 @@
             mix-blend-mode: difference;
         }
 
-        .nav-photo {
-            height: 40px;
-            width: auto;
-            border-radius: 4px;
-            object-fit: cover;
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-decoration: none;
         }
 
         .nav-center {
@@ -235,22 +237,19 @@
             position: relative;
         }
 
-        .hero-bg {
+        .hero-bg-image {
             position: absolute;
             inset: 0;
-            background: 
-                radial-gradient(ellipse at 30% 30%, rgba(184, 134, 11, 0.05) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 70%, rgba(184, 134, 11, 0.03) 0%, transparent 50%),
-                var(--black);
+            background-image: url('jc-seth-punch-shield.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .hero-grid {
+        .hero-overlay {
             position: absolute;
             inset: 0;
-            background-image: 
-                linear-gradient(rgba(184, 134, 11, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(184, 134, 11, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .hero-content {
@@ -1312,8 +1311,7 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <!-- Placeholder: Replace with JC & Seth punch shield photo -->
-        <img src="jc-seth-punch-shield.jpg" alt="JC and Seth" class="nav-photo" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<span style=\'font-family:Syne,sans-serif;font-size:10px;color:var(--gold);opacity:0.5;\'>[ JC & Seth Photo ]</span>');">
+        <a href="#" class="nav-logo">NBC</a>
         <span class="nav-center">Nashville, Tennessee</span>
         <button class="nav-menu-btn" aria-label="Toggle menu">
             <span></span>
@@ -1345,8 +1343,8 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-grid"></div>
+        <div class="hero-bg-image"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <img src="NBC_Primary_Logo_3.svg" alt="Nashville Boxing Club" class="hero-logo">
             <p class="hero-eyebrow">Est. 2026 • Nashville, Tennessee</p>
